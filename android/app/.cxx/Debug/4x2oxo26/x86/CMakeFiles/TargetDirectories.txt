@@ -1,0 +1,2 @@
+C:/reignce/android/app/.cxx/Debug/4x2oxo26/x86/CMakeFiles/edit_cache.dir
+C:/reignce/android/app/.cxx/Debug/4x2oxo26/x86/CMakeFiles/rebuild_cache.dir
