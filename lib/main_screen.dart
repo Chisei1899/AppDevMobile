@@ -65,54 +65,57 @@ class _MainScreenState extends State<MainScreen> {
           ))
               .toList(),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(top: 25),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 64,
-                width: 64,
-                child: FloatingActionButton(
-                  backgroundColor: Colors.purple,
-                  elevation: 0,
-                  onPressed: () => debugPrint("Add Button pressed"),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 4, color: Colors.white),
-                    borderRadius: BorderRadius.circular(100),
+        bottomNavigationBar: Stack(
+          children: [
+            NavBar(
+              pageIndex: selectedTab,
+              onTap: (index) {
+                if (index == selectedTab) {
+                  items[index]
+                      .navKey
+                      .currentState
+                      ?.popUntil((route) => route.isFirst);
+                } else {
+                  setState(() {
+                    selectedTab = index;
+                  });
+                }
+              },
+            ),
+            Positioned(
+              bottom: 40, // Adjust this value to control the FAB's position
+              left: MediaQuery.of(context).size.width * 0.5 - 32, // Center horizontally
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 64,
+                    width: 64,
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.purple,
+                      onPressed: () => debugPrint("Add Button pressed"),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 4, color: Colors.white),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Post',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Post',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: NavBar(
-          pageIndex: selectedTab,
-          onTap: (index) {
-            if (index == selectedTab) {
-              items[index]
-                  .navKey
-                  .currentState
-                  ?.popUntil((route) => route.isFirst);
-            } else {
-              setState(() {
-                selectedTab = index;
-              });
-            }
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -135,6 +138,40 @@ class TabPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Profile image
+                Container(
+                  margin: const EdgeInsets.only(bottom: 24),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.grey[300],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Name',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const Text(
+                        'emailaddress@gmail.com',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+
                 _buildTextField('Name'),
                 const SizedBox(height: 16),
                 _buildTextField('Email'),
@@ -158,7 +195,6 @@ class TabPage extends StatelessWidget {
     );
   }
 
-  // Build the TextField widget
   Widget _buildTextField(String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,26 +206,26 @@ class TabPage extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           ),
         ),
       ],
     );
   }
 
-  // Build the Button widget
   Widget _buildButton(String text, {required bool isFilled}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: isFilled
-            ? const Color(0xFF0D1EC6) // Filled button with blue background
-            :  const Color(0xFFFEF7FF), // Unfilled button with white background
+            ? const Color(0xFF0D1EC6)
+            : const Color(0xFFFEF7FF),
         foregroundColor: isFilled
-            ? Colors.white // Filled button with white text
-            : const Color(0xFF0D1EC6), // Unfilled button with blue text
+            ? Colors.white
+            : const Color(0xFF0D1EC6),
         side: isFilled
             ? BorderSide.none
-            : const BorderSide(color: Color(0xFF0D1EC6), width: 1.5), // Border for unfilled button
+            : const BorderSide(color: Color(0xFF0D1EC6), width: 1.5),
         padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
@@ -197,20 +233,6 @@ class TabPage extends StatelessWidget {
       ),
       onPressed: () {},
       child: Text(text),
-    );
-  }
-}
-
-class Page extends StatelessWidget {
-  final int tab;
-
-  const Page({super.key, required this.tab});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Page Tab $tab')),
-      body: Center(child: Text('Tab $tab')),
     );
   }
 }
