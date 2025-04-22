@@ -1,5 +1,5 @@
-import 'package:custom_bottom_nav_flutter/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:navbar_app/screens/home_screens.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Custom NavBar Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.green,
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
+        fontFamily: 'Inter',
       ),
-      home: const MainScreen(),
+      home: const HomeScreen(),
     );
   }
 }
