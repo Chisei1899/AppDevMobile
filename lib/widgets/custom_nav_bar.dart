@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navbar_app/widgets/nav_bar_item.dart';
 import 'package:navbar_app/widgets/center_button.dart';
 
@@ -41,30 +42,42 @@ class CustomNavBar extends StatelessWidget {
                 children: [
                   // Home
                   NavBarItem(
-                    iconData: Icons.home_outlined,
-                    label: 'Home',
+                    icon: SvgPicture.asset(
+                      selectedIndex == 0 ? 'images/Home_Selected.svg' : 'images/Home.svg',
+                      height: 50,
+                      width: 50,
+                    ),
                     isSelected: selectedIndex == 0,
                     onTap: () => onItemTapped(0),
                   ),
                   // Jobs
                   NavBarItem(
-                    iconData: Icons.work_outline,
-                    label: 'Jobs',
+                    icon: SvgPicture.asset(
+                      selectedIndex == 1 ? 'images/Jobs_Selected.svg' : 'images/Jobs.svg',
+                      height: 50,
+                      width: 50,
+                    ),
                     isSelected: selectedIndex == 1,
                     onTap: () => onItemTapped(1),
                   ),
                   const SizedBox(width: 50),
                   // Messages
                   NavBarItem(
-                    iconData: Icons.message_outlined,
-                    label: 'Messages',
+                    icon: SvgPicture.asset(
+                      selectedIndex == 2 ? 'images/Messages_Selected.svg' : 'images/Messages.svg',
+                      height: 50,
+                      width: 50,
+                    ),
                     isSelected: selectedIndex == 2,
                     onTap: () => onItemTapped(2),
                   ),
                   // Profile
                   NavBarItem(
-                    iconData: Icons.person_outline,
-                    label: 'Profile',
+                    icon: SvgPicture.asset(
+                      selectedIndex == 3 ? 'images/Profile_Selected.svg' : 'images/Profile.svg',
+                      height: 50,
+                      width: 50,
+                    ),
                     isSelected: selectedIndex == 3,
                     onTap: () => onItemTapped(3),
                   ),
@@ -79,26 +92,30 @@ class CustomNavBar extends StatelessWidget {
             left: 0,
             right: 0,
             child: Center(
-              child: CenterButton(),
+              child: CenterButton(
+                isSelected: selectedIndex == 4, // NEW: 4 is Post
+                onTap: () => onItemTapped(4),
+              ),
             ),
           ),
 
-          // Blue indicator line
-          Positioned(
-            bottom: 58,
-            left: selectedIndex == 0
-                ? 18
-                : (selectedIndex == 1
-                ? 91
-                : (selectedIndex == 2
-                ? 244
-                : 322)),
-            child: Container(
-              width: 70,
-              height: 2,
-              color: const Color(0xFF090C9B),
+// Blue indicator line (invisible if Post button is selected)
+          if (selectedIndex != 4)
+            Positioned(
+              bottom: 58,
+              left: selectedIndex == 0
+                  ? 18
+                  : (selectedIndex == 1
+                  ? 91
+                  : (selectedIndex == 2
+                  ? 244
+                  : 322)),
+              child: Container(
+                width: 70,
+                height: 2,
+                color: const Color(0xFF090C9B),
+              ),
             ),
-          ),
         ],
       ),
     );
